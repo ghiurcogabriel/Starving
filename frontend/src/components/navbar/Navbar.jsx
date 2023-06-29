@@ -17,7 +17,7 @@ const Navbar = () => {
         </Link>
         <Link to="addRestaurant">
           <button className="full-rounded">
-            <span>Add new </span>
+            <span>Add new restaurant </span>
             <div className="border full-rounded"></div>
           </button>
         </Link>
