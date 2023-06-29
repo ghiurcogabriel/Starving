@@ -1,0 +1,87 @@
+/* === removing default button style ===*/
+.navbar-button {
+  margin: 0;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+/* button styling */
+.navbar-button {
+  --border-right: 6px;
+  --text-stroke-color: rgba(255, 255, 255, 0.6);
+  --animation-color: #37ff8b;
+  letter-spacing: 3px;
+  text-decoration: none;
+  font-size: 30px;
+  font-family: "Arial";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+/* this is the text, when you hover on button */
+.hover-text {
+  position: absolute;
+  box-sizing: border-box;
+  content: attr(data-text);
+  color: var(--animation-color);
+  width: 0%;
+  inset: 0;
+  border-right: var(--border-right) solid var(--animation-color);
+  overflow: hidden;
+  transition: 0.5s;
+  -webkit-text-stroke: 1px var(--animation-color);
+}
+/* hover */
+.navbar-button:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color));
+}
+
+/* second button */
+
+.full-rounded {
+  font-size: 16px;
+  position: relative;
+  margin: auto;
+  padding: 1em 2.5em 1em 2.5em;
+  border: none;
+  background: #464545;
+  transition: all 0.1s linear;
+  box-shadow: 0 0.4em 1em rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.full-rounded:active {
+  transform: scale(0.95);
+}
+
+.full-rounded span {
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+
+.full-rounded .border {
+  position: absolute;
+  border: 0.15em solid #fff;
+  transition: all 0.3s 0.08s linear;
+  top: 50%;
+  left: 50%;
+  width: 9em;
+  height: 1em;
+  transform: translate(-50%, -50%);
+}
+
+.full-rounded:hover .border {
+  display: block;
+  width: 9.9em;
+  height: 1.7em;
+}
+
+.full-rounded {
+  border-radius: 2em;
+}
