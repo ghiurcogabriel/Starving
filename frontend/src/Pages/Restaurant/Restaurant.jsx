@@ -1,23 +1,23 @@
 import React, { useEffect, useState, useContext } from "react";
 import svg1 from "../../assets/svg1.svg";
-import svg2 from "../../assets/svg2.svg";
 import "../Styles.css";
+import "./Restaurant.css";
 import { useParams } from "react-router-dom";
 import CartContext from "../../context/cart/CartContext";
+import { ToastContainer, toast } from "react-toastify";
 
+import "react-toastify/dist/ReactToastify.css";
 const Restaurant = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
-  const [restId, setRestId] = useState(null);
-  
-  const {addToCart, increaseItems} = useContext(CartContext);
+
+  const { addToCart, error } = useContext(CartContext);
   // console.log(data?.menus?.map(item => {return item.price}));
 
   useEffect(() => {
     const fetchRestaurants = async () => {
       const response = await fetch(`/api/restaurants/${id}`);
       const data = await response.json();
-      //   console.log(data);
       if (response.ok) {
         setData(data);
       }
@@ -25,23 +25,28 @@ const Restaurant = () => {
 
     fetchRestaurants();
   }, [id]);
-  console.log(data?._id);
 
+  const handleAddFood = (menu) => {
+    addToCart(menu);
+  };
 
-  // useEffect(()=> {
-  //    const restaurantId = data?.map((rId) => {
-  //     return rId.id
-  //   })
-  //   setRestId(restaurantId)
-  // }, [])
-  const handleAddFood = (menu)=> {
-   
-    if(data?._id == data?._id){
-      addToCart(menu)
+  const notify = () => {
+    toast.error("product already in cart, please change quantity from cart", {
+      position: toast.POSITION.TOP_RIGHT,
+      toastId: error[0],
+      theme: "dark",
+    });
+  };
+
+  const checkItem = (menuId) => {
+    for (let i = 0; i < error.length; i++) {
+      const element = error[i];
+      if (element === menuId) {
+        notify();
+      }
     }
-  }
-  
-  console.log(restId)
+  };
+
   return (
     <>
       {data?.menus?.map((menu) => (
@@ -62,7 +67,7 @@ const Restaurant = () => {
               </div>
 
               <div className="front-content">
-                <small className="badge">mangiare bene</small>
+                <small className="badge">{menu.name}</small>
                 <div className="description">
                   <div className="title">
                     <p className="title">
@@ -70,16 +75,37 @@ const Restaurant = () => {
                     </p>
                   </div>
                   <p className="card-footer">
-                    {menu?.price} RON &nbsp; | &nbsp; {menu?.quantity} gr
+                    {menu?.price} RON &nbsp; | &nbsp; {menu?.weight} gr
                   </p>
-                  <button onClick={() => increaseItems(menu)}>increase</button>
-                  <button onClick={() => handleAddFood(menu)}>Order</button>
+                  <button
+                    className="order"
+                    onClick={() => {
+                      handleAddFood(menu);
+                      checkItem(menu._id);
+                    }}
+                  >
+                    Order
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       ))}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      {/* {error?.length > 0 ? notify() : ""} */}
+      {/* <ToastContainer /> */}
     </>
   );
 };

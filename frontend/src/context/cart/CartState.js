@@ -1,9 +1,11 @@
-import { Children, useReducer } from "react";
+import { useReducer } from "react";
 import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
   INCREASE_CART,
   DECREASE_CART,
+  RESTAURANT_ITEMS,
+  EMPTY_CART,
 } from "../Types";
 import CartReducer from "./CartReducer";
 import CartContext from "./CartContext";
@@ -12,31 +14,46 @@ const CartState = ({ children }) => {
   const initialState = {
     items: [],
     totalItems: 0,
+    qty: 1,
+    total: 0,
+    error: [],
+    restaurantItems: []
   };
   const [state, dispatch] = useReducer(CartReducer, initialState);
 
   const addToCart = (items) => {
-    dispatch({ type: ADD_TO_CART, payload: items });
+    return dispatch({ type: ADD_TO_CART, payload: items });
   };
   const removeFromCart = (id) => {
-    dispatch({ type: REMOVE_FROM_CART, payload: id });
+    return dispatch({ type: REMOVE_FROM_CART, payload: id });
   };
-  const increaseItems = (num) => {
-    dispatch({ type: INCREASE_CART, payload: num });
+  const increaseItems = (id) => {
+    return dispatch({ type: INCREASE_CART, payload: id });
   };
-  const decreaseItems = (num) => {
-    dispatch({ type: DECREASE_CART, payload: num - 1 });
+  const decreaseItems = (id) => {
+    return dispatch({ type: DECREASE_CART, payload: id });
   };
+  const restItems = (items) => {
+    return dispatch({ type: RESTAURANT_ITEMS, payload: items });
+  }
+  const emptyCart = (items) => {
+    return dispatch({ type: EMPTY_CART });
+  }
 
   return (
     <CartContext.Provider
       value={{
         cartItems: state.items,
         totalItems: state.totalItems,
+        qty: state.qty,
+        error: state.error,
+        restaurantItems: state.restaurantItems,
         addToCart,
         removeFromCart,
         increaseItems,
         decreaseItems,
+        restItems,
+        emptyCart
       }}
     >
       {children}

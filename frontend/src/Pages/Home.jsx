@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Styles.css";
+import CartContext from "../context/cart/CartContext";
 
 const Home = () => {
   const [data, setData] = useState([]);
   // const {id} = useParams();
 
-  console.log(data.map((item) => console.log(item.deliveryFee)));
+  // console.log(data.map((item) => console.log(item.deliveryFee)));
+  const {restItems} = useContext(CartContext);
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -23,7 +25,7 @@ const Home = () => {
   return (
     <div className="home-restaurant">
       {data?.map((item) => (
-        <Link key={item._id} to={`restaurant/${item._id}`}>
+        <Link key={item._id} to={`restaurant/${item._id}`} onClick={() => restItems(item)}>
           <div className="home-card">
             <div className="restaurant-card">
               <div className="restaurant-title">
