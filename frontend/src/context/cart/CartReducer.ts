@@ -6,6 +6,11 @@ import {
   RESTAURANT_ITEMS,
   EMPTY_CART,
 } from "../Types";
+import { CartItem } from "../cartTypes";
+
+type CartStateType = {
+  items: CartItem[];
+}
 
 const CartReducer = (state, action) => {
   switch (action.type) {

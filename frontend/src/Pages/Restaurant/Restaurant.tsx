@@ -1,18 +1,19 @@
 import React, { useEffect, useState, useContext } from "react";
-import svg1 from "../../assets/svg1.svg";
+// import svg1 from "../../assets/svg1.svg";
 import "../Styles.css";
 import "./Restaurant.css";
 import { useParams } from "react-router-dom";
 import CartContext from "../../context/cart/CartContext";
 import { ToastContainer, toast } from "react-toastify";
+import { CartItem, RestaurantType } from "../../context/cartTypes";
 
 import "react-toastify/dist/ReactToastify.css";
 const Restaurant = () => {
   const { id } = useParams();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<RestaurantType>();
 
   const { addToCart, error } = useContext(CartContext);
-  // console.log(data?.menus?.map(item => {return item.price}));
+  console.log(data?.menus);
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -26,7 +27,7 @@ const Restaurant = () => {
     fetchRestaurants();
   }, [id]);
 
-  const handleAddFood = (menu) => {
+  const handleAddFood = (menu: CartItem) => {
     addToCart(menu);
   };
 
@@ -38,7 +39,7 @@ const Restaurant = () => {
     });
   };
 
-  const checkItem = (menuId) => {
+  const checkItem = (menuId: string) => {
     for (let i = 0; i < error.length; i++) {
       const element = error[i];
       if (element === menuId) {
@@ -49,12 +50,12 @@ const Restaurant = () => {
 
   return (
     <>
-      {data?.menus?.map((menu) => (
+      {data?.menus?.map((menu: CartItem) => (
         <div className="card">
           <div className="content">
             <div className="back">
               <div className="back-content">
-                <img src={svg1} alt="" />
+                <img src={'../../assets/svg1.svg'} alt="" />
                 <strong>{menu?.name}</strong>
                 <div></div>
               </div>

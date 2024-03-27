@@ -1,3 +1,4 @@
+import React from "react";
 import { useReducer } from "react";
 import {
   ADD_TO_CART,
@@ -9,15 +10,25 @@ import {
 } from "../Types";
 import CartReducer from "./CartReducer";
 import CartContext from "./CartContext";
+import { CartItem } from "../cartTypes";
+
+type CartStateType = {
+  items: CartItem[];
+  totalItems: number;
+  qty: number;
+  total: number;
+  errors: string;
+  restaurantItems: CartItem[];
+};
 
 const CartState = ({ children }) => {
-  const initialState = {
+  const initialState: CartStateType = {
     items: [],
     totalItems: 0,
     qty: 1,
     total: 0,
-    error: [],
-    restaurantItems: []
+    errors: '',
+    restaurantItems: [],
   };
   const [state, dispatch] = useReducer(CartReducer, initialState);
 
@@ -35,10 +46,10 @@ const CartState = ({ children }) => {
   };
   const restItems = (items) => {
     return dispatch({ type: RESTAURANT_ITEMS, payload: items });
-  }
-  const emptyCart = (items) => {
+  };
+  const emptyCart = () => {
     return dispatch({ type: EMPTY_CART });
-  }
+  };
 
   return (
     <CartContext.Provider
@@ -53,7 +64,7 @@ const CartState = ({ children }) => {
         increaseItems,
         decreaseItems,
         restItems,
-        emptyCart
+        emptyCart,
       }}
     >
       {children}
